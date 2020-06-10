@@ -1,11 +1,16 @@
+---
+output: github_document
+---
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 ## Data
 
 ```{r}
 # load german football-league (Bundesliga) data
+library("ordBTL")
 library("wikibooks")
 data(Bundesliga)
 str(Bundesliga)
