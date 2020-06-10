@@ -47,11 +47,46 @@ str(buli0506)
 
 ## Estimate the team ability
 
+As the bradley-terry model is just a logit model (binary target), we can
+extend this for multiclass target using, e.g., a cummulative logit
+model. The `ordBTL` function does exactly this and uses internally the
+`VGAM` package.
+
 ``` r
 # Create design matrix for ordinal Bradley-Terry model
 des.nohome = design(buli0506, var1="Heim", var2="Gast",
   use.vars="Y3", home.advantage="no", reference="GAMMA.MSV.Duisburg")
 
+# first game is bayern vs. moenchengladbach
+buli0506[1,]
+```
+
+    ##          Saison Spieltag      Datum Anpfiff               Heim
+    ## 12795 2005/2006        1 2005-08-05   20:30 FC Bayern Muenchen
+    ##                            Gast Tore.Heim Tore.Gast Tore.Heim.Halbzeit
+    ## 12795 Borussia Moenchengladbach         3         0                  1
+    ##       Tore.Gast.Halbzeit Y3
+    ## 12795                  0  1
+
+``` r
+# the design-matrix for the ordinal BTL model looks like this
+des.nohome[1,]
+```
+
+    ##       GAMMA.1.FC.Kaiserslautern GAMMA.1.FC.Koeln GAMMA.1.FC.Nuernberg
+    ## 12795                         0                0                    0
+    ##       GAMMA.1.FSV.Mainz.05 GAMMA.Arminia.Bielefeld GAMMA.Bayer.Leverkusen
+    ## 12795                    0                       0                      0
+    ##       GAMMA.Borussia.Dortmund GAMMA.Borussia.Moenchengladbach
+    ## 12795                       0                              -1
+    ##       GAMMA.Eintracht.Frankfurt GAMMA.FC.Bayern.Muenchen GAMMA.FC.Schalke.04
+    ## 12795                         0                        1                   0
+    ##       GAMMA.Hamburger.SV GAMMA.Hannover.96 GAMMA.Hertha.BSC.Berlin
+    ## 12795                  0                 0                       0
+    ##       GAMMA.SV.Werder.Bremen GAMMA.VfB.Stuttgart GAMMA.VfL.Wolfsburg Y3
+    ## 12795                      0                   0                   0  1
+
+``` r
 mod.nohome = ordBTL(Y3~., data=des.nohome)
 # team 'abilities' (should be approximately the ranking of the final standings)
 getRank(mod.nohome, prefix="GAMMA", reference="GAMMA.MSV.Duisburg")

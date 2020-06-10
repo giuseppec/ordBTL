@@ -27,10 +27,18 @@ str(buli0506)
 
 ## Estimate the team ability
 
+As the bradley-terry model is just a logit model (binary target), we can extend this for multiclass target using, e.g., a cummulative logit model.
+The `ordBTL` function does exactly this and uses internally the `VGAM` package.
+
 ```{r}
 # Create design matrix for ordinal Bradley-Terry model
 des.nohome = design(buli0506, var1="Heim", var2="Gast",
   use.vars="Y3", home.advantage="no", reference="GAMMA.MSV.Duisburg")
+
+# first game is bayern vs. moenchengladbach
+buli0506[1,]
+# the design-matrix for the ordinal BTL model looks like this
+des.nohome[1,]
 
 mod.nohome = ordBTL(Y3~., data=des.nohome)
 # team 'abilities' (should be approximately the ranking of the final standings)
