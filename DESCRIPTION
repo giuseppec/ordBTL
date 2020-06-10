@@ -11,9 +11,9 @@ Description: This package extends the Bradley-Terry-Luce model for fitting pair
     advantage.
 License: GPL-3
 Depends: caret, VGAM, wikibooks, gtools
-Suggests: BradleyTerry2, prefmod, psychotree, psychotools, psychomix
 LazyData: TRUE
 Packaged: 2014-05-28 08:51:17 UTC; admin2
 NeedsCompilation: no
 Repository: CRAN
 Date/Publication: 2014-05-28 18:39:18
+RoxygenNote: 7.1.0
